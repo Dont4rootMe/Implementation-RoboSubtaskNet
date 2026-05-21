@@ -1,0 +1,32 @@
+# @package _global_
+# GTEA dataset configuration. Composes default.yaml and overrides only the
+# pieces that are GTEA-specific. GTEA has 11 sub-action classes (per the
+# MS-TCN repository mapping.txt): take, open, pour, close, shake, scoop,
+# stir, put, fold, spread, background.
+#
+# Reference: https://github.com/yabufarha/ms-tcn (data/gtea/mapping.txt)
+
+defaults:
+  - default
+  - _self_
+
+model:
+  num_classes: 11
+
+dataset:
+  name: gtea
+  data_root: data/gtea
+  feature_dir: data/gtea/features
+  splits_dir: data/gtea/splits
+  annotations_dir: data/gtea/groundTruth
+  mapping_file: data/gtea/mapping.txt
+  split: split1
+  train_bundle: data/gtea/splits/train.split1.bundle
+  test_bundle: data/gtea/splits/test.split1.bundle
+  feature_format: split2048   # MS-TCN-published 2048-d features split into RGB|Flow halves
+  num_workers: 2
+
+training:
+  # GTEA videos are short; bs=1 is fine and is the MS-TCN default.
+  batch_size: 1
+  num_epochs: 50
