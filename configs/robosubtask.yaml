@@ -1,0 +1,33 @@
+# @package _global_
+# Custom RoboSubtask dataset configuration. Composes default.yaml.
+# Sub-task vocabulary (Section 5.2): 8 sub-tasks + background = 9 classes.
+#   reach, pick, place, retract, pour, wipe, move, give, background
+# The task-to-sub-task grammar (used by the transition loss) lives in
+# configs/grammar/robosubtask.yaml.
+
+defaults:
+  - default
+  - _self_
+
+model:
+  num_classes: 9
+
+dataset:
+  name: robosubtask
+  data_root: data/robosubtask
+  feature_dir: data/robosubtask/features
+  splits_dir: data/robosubtask/splits
+  annotations_dir: data/robosubtask/annotations
+  mapping_file: data/robosubtask/mapping.txt
+  split: split1
+  train_bundle: data/robosubtask/splits/train.split1.bundle
+  test_bundle: data/robosubtask/splits/test.split1.bundle
+  feature_format: npz         # extracted by scripts/extract_features.py
+  num_workers: 2
+
+grammar:
+  path: configs/grammar/robosubtask.yaml
+
+training:
+  batch_size: 1
+  num_epochs: 50

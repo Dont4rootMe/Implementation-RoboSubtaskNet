@@ -1,0 +1,20 @@
+# Task-to-sub-task grammar for the custom RoboSubtask dataset.
+# Verbatim from IMPLEMENTATION_PLAN.md Section 5.2 (Table II).
+# Consumed by src/robosubtasknet/data/grammar.py:build_allowed_transitions
+# to assemble the [C, C] allowed-transition matrix used by the
+# transition-aware loss (Section 9.3).
+#
+# Conventions enforced downstream (NOT here):
+#   1. All self-transitions are allowed (a sub-task can persist).
+#   2. background <-> any sub-task in a sequence is allowed.
+# Only the ordered intra-sequence transitions are declared below.
+
+tasks:
+  pick_and_place:
+    sequence: [reach, pick, move, place, retract]
+  pick_and_pour:
+    sequence: [reach, pick, move, pour, move, place, retract]
+  cleaning:
+    sequence: [reach, wipe, retract]
+  pick_and_give:
+    sequence: [reach, pick, give, retract]

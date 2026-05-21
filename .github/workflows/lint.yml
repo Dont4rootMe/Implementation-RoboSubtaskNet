@@ -1,0 +1,30 @@
+name: lint
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install lint tools
+        run: pip install ruff mypy
+
+      - name: ruff check
+        run: ruff check .
+
+      - name: ruff format check
+        run: ruff format --check .
+
+      - name: mypy
+        run: mypy --ignore-missing-imports src/

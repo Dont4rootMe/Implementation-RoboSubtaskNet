@@ -1,0 +1,31 @@
+# @package _global_
+# Breakfast dataset configuration. Composes default.yaml and overrides only
+# the pieces that are Breakfast-specific. Breakfast uses the conventional
+# 48-class action vocabulary (per the MS-TCN repository).
+#
+# Reference: https://github.com/yabufarha/ms-tcn (data/breakfast/mapping.txt)
+
+defaults:
+  - default
+  - _self_
+
+model:
+  num_classes: 48
+
+dataset:
+  name: breakfast
+  data_root: data/breakfast
+  feature_dir: data/breakfast/features
+  splits_dir: data/breakfast/splits
+  annotations_dir: data/breakfast/groundTruth
+  mapping_file: data/breakfast/mapping.txt
+  split: split1
+  train_bundle: data/breakfast/splits/train.split1.bundle
+  test_bundle: data/breakfast/splits/test.split1.bundle
+  feature_format: split2048   # MS-TCN-published 2048-d features split into RGB|Flow halves
+  # Breakfast videos are long; use more workers to keep the GPU fed.
+  num_workers: 4
+
+training:
+  batch_size: 1
+  num_epochs: 50
