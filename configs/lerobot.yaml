@@ -1,0 +1,47 @@
+# @package _global_
+# RoboSubtaskNet config for training on LeRobot v2.1 datasets.
+#
+# Most knobs are surfaced via CLI in scripts/train_lerobot.py; this YAML is
+# kept as a reference / starting point for Hydra-style invocations.
+defaults:
+  - default
+  - _self_
+
+model:
+  num_stages: 4
+  num_layers: 10
+  feature_dim: 1024
+  hidden_dim: 64
+  # num_classes is overridden by --label-map at runtime (union vocab size).
+  num_classes: 9
+
+losses:
+  lambda_tmse: 0.15
+  # gamma_trans=0.0 disables the transition-aware term (no grammar provided).
+  # Set to 0.15 and pass --grammar configs/grammar/<name>.yaml to enable.
+  gamma_trans: 0.0
+  tmse_tau: 4.0
+
+training:
+  batch_size: 1
+  num_epochs: 50
+  optimizer: adamw
+  lr: 5.0e-4
+  weight_decay: 1.0e-4
+  scheduler: cosine
+  grad_clip: 5.0
+  amp: true
+
+dataset:
+  name: lerobot
+  feature_format: npz
+  num_workers: 0
+  pin_memory: false
+
+seed: 42
+
+logging:
+  log_every: 50
+  eval_every_epochs: 1
+  save_top_k: 3
+  tensorboard: true
