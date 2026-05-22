@@ -1,0 +1,47 @@
+# @package _global_
+defaults:
+  - default
+  - _self_
+
+model:
+  num_stages: 4
+  num_layers: 10
+  feature_dim: 1024
+  hidden_dim: 64
+  dropout: 0.5
+
+boundary:
+  pos_weight: 10.0
+  sigma: 2.0
+  lambda_smooth: 0.15
+  tmse_tau: 4.0
+  feature_stride: 8  # I3D temporal stride; used at inference to upsample probs
+
+training:
+  batch_size: 1
+  num_epochs: 50
+  optimizer: adamw
+  lr: 5.0e-4
+  weight_decay: 1.0e-4
+  scheduler: cosine
+  grad_clip: 5.0
+  amp: true
+
+dataset:
+  format: lerobot_boundary_cache
+  num_workers: 0
+  pin_memory: false
+
+postprocess:
+  threshold: 0.5
+  min_distance: 3
+  min_segment_length: 5
+  prominence: 0.1
+
+seed: 42
+
+logging:
+  log_every: 50
+  eval_every_epochs: 1
+  save_top_k: 3
+  tensorboard: true

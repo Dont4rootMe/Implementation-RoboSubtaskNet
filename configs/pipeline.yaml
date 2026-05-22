@@ -1,0 +1,18 @@
+# @package _global_
+defaults:
+  - default
+  - _self_
+
+pipeline:
+  boundary:
+    threshold: 0.5
+    min_distance: 3
+    min_segment_length: 5
+    prominence: 0.1
+  vlm:
+    n_frames_per_segment: 8
+    frame_size: [224, 224]
+    max_new_tokens: 64
+    do_sample: false
+  predict_task_if_missing: true
+  device: cuda

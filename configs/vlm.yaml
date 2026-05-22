@@ -1,0 +1,43 @@
+# @package _global_
+defaults:
+  - default
+  - _self_
+
+vlm:
+  model_name: "Qwen/Qwen2-VL-2B-Instruct"
+  torch_dtype: bfloat16
+  lora:
+    rank: 16
+    alpha: 32
+    dropout: 0.05
+    target_modules:
+      - q_proj
+      - k_proj
+      - v_proj
+      - o_proj
+      - gate_proj
+      - up_proj
+      - down_proj
+
+training:
+  epochs: 3
+  per_device_batch_size: 1
+  gradient_accumulation_steps: 8
+  lr: 2.0e-4
+  weight_decay: 0.0
+  warmup_ratio: 0.03
+  logging_steps: 10
+  save_steps: 200
+  bf16: true
+  gradient_checkpointing: true
+  max_grad_norm: 1.0
+  max_length: 1024
+
+data:
+  n_frames: 8
+  frame_size: [224, 224]
+  max_segments_per_episode: null  # cap
+  skip_background: true
+  min_segment_length_frames: 4
+
+seed: 42
